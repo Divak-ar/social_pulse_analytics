@@ -1,3 +1,7 @@
+"""
+Sentiment analysis for Social Pulse Analytics
+Uses VADER sentiment analysis optimized for social media text
+"""
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from textblob import TextBlob
 from typing import List, Dict, Any, Tuple
@@ -55,12 +59,38 @@ class SentimentAnalyzer:
             return "Neutral"
     
     def analyze_reddit_post(self, post: RedditPost) -> RedditPost:
-        """Analyze sentiment of a Reddit post"""
+        """Analyze sentiment and enhanced metrics of a Reddit post"""
+        # Import here to avoid circular imports
+        from analyzers.content_analyzer import content_analyzer
+        from datetime import datetime
+        
         # Combine title and selftext for analysis
         text_to_analyze = f"{post.title} {post.selftext}".strip()
         
+        # Sentiment analysis
         sentiment_result = self.analyze_text(text_to_analyze)
         post.sentiment_score = sentiment_result['final_score']
+        
+        # Enhanced content analysis
+        curse_analysis = content_analyzer.count_curse_words(text_to_analyze)
+        post.curse_word_count = curse_analysis['curse_count']
+        
+        readability = content_analyzer.calculate_readability_score(text_to_analyze)
+        post.readability_score = readability['score']
+        
+        # Calculate engagement velocity
+        hours_old = max((datetime.now().timestamp() - post.created_utc) / 3600, 0.1)
+        post.engagement_velocity = (post.score + post.num_comments * 2) / hours_old
+        
+        # Calculate virality score using content analyzer
+        viral_analysis = content_analyzer.analyze_viral_potential(
+            post.title,
+            post.selftext,
+            post.score,
+            post.num_comments,
+            hours_old
+        )
+        post.virality_score = viral_analysis['viral_score']
         
         return post
     
@@ -81,12 +111,47 @@ class SentimentAnalyzer:
         return analyzed_posts
     
     def analyze_news_article(self, article: NewsArticle) -> NewsArticle:
-        """Analyze sentiment of a news article"""
+        """Analyze sentiment and enhanced metrics of a news article"""
+        # Import here to avoid circular imports
+        from analyzers.content_analyzer import content_analyzer
+        
         # Combine title and description for analysis
         text_to_analyze = f"{article.title} {article.description}".strip()
         
+        # Sentiment analysis
         sentiment_result = self.analyze_text(text_to_analyze)
         article.sentiment_score = sentiment_result['final_score']
+        
+        # Enhanced content analysis
+        readability = content_analyzer.calculate_readability_score(text_to_analyze)
+        article.readability_score = readability['score']
+        
+        # Word count
+        article.word_count = len(text_to_analyze.split())
+        
+        # Engagement analysis for emotional tone
+        engagement = content_analyzer.analyze_engagement_factors(text_to_analyze)
+        article.emotional_tone = engagement['emotional_tone']
+        
+        # Calculate urgency score based on content
+        urgent_words = ['breaking', 'urgent', 'alert', 'developing', 'live', 'update']
+        urgency_count = sum(1 for word in urgent_words if word in text_to_analyze.lower())
+        article.urgency_score = min(urgency_count * 2, 10)  # Scale to 0-10
+        
+        # Basic credibility score (can be enhanced with ML later)
+        credibility_factors = 0
+        if article.author and article.author != '':
+            credibility_factors += 2
+        if len(article.description) > 100:
+            credibility_factors += 2
+        if article.source in ['Reuters', 'Associated Press', 'BBC', 'NPR']:
+            credibility_factors += 4
+        elif article.source in ['CNN', 'Fox News', 'MSNBC']:
+            credibility_factors += 3
+        else:
+            credibility_factors += 1
+        
+        article.credibility_score = min(credibility_factors, 10)
         
         return article
     

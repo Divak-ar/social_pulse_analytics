@@ -1,8 +1,12 @@
+"""
+Data models for Social Pulse Analytics
+Defines data structures and validation for Reddit posts, news articles, and trends
+"""
 from datetime import datetime
 from typing import List, Optional, Dict, Any
 
 class RedditPost:
-    """Reddit post data model"""
+    """Reddit post data model with enhanced fields"""
     
     def __init__(self, data: Dict[str, Any]):
         self.id = data.get('id', '')
@@ -15,6 +19,23 @@ class RedditPost:
         self.selftext = data.get('selftext', '')
         self.created_utc = data.get('created_utc', 0)
         self.sentiment_score = data.get('sentiment_score', 0.0)
+        
+        # Enhanced fields
+        self.upvote_ratio = data.get('upvote_ratio', 0.0)
+        self.post_flair = data.get('post_flair', '')
+        self.is_nsfw = data.get('is_nsfw', False)
+        self.is_spoiler = data.get('is_spoiler', False)
+        self.is_locked = data.get('is_locked', False)
+        self.post_type = data.get('post_type', 'text')
+        self.domain = data.get('domain', '')
+        self.gilded = data.get('gilded', 0)
+        self.distinguished = data.get('distinguished', '')
+        self.stickied = data.get('stickied', False)
+        self.total_awards_received = data.get('total_awards_received', 0)
+        self.curse_word_count = data.get('curse_word_count', 0)
+        self.readability_score = data.get('readability_score', 0.0)
+        self.engagement_velocity = data.get('engagement_velocity', 0.0)
+        self.virality_score = data.get('virality_score', 0.0)
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
@@ -28,7 +49,22 @@ class RedditPost:
             'url': self.url,
             'selftext': self.selftext,
             'created_utc': self.created_utc,
-            'sentiment_score': self.sentiment_score
+            'sentiment_score': self.sentiment_score,
+            'upvote_ratio': self.upvote_ratio,
+            'post_flair': self.post_flair,
+            'is_nsfw': self.is_nsfw,
+            'is_spoiler': self.is_spoiler,
+            'is_locked': self.is_locked,
+            'post_type': self.post_type,
+            'domain': self.domain,
+            'gilded': self.gilded,
+            'distinguished': self.distinguished,
+            'stickied': self.stickied,
+            'total_awards_received': self.total_awards_received,
+            'curse_word_count': self.curse_word_count,
+            'readability_score': self.readability_score,
+            'engagement_velocity': self.engagement_velocity,
+            'virality_score': self.virality_score
         }
     
     @property
@@ -50,27 +86,49 @@ class RedditPost:
         return self.engagement_score * (1 + comment_ratio)
 
 class NewsArticle:
-    """News article data model"""
+    """News article data model with enhanced fields"""
     
     def __init__(self, data: Dict[str, Any]):
         self.title = data.get('title', '')
         self.description = data.get('description', '')
+        self.content = data.get('content', '')
         self.url = data.get('url', '')
         self.source = data.get('source', {}).get('name', '') if isinstance(data.get('source'), dict) else data.get('source', '')
+        self.author = data.get('author', '')
+        self.category = data.get('category', '')
+        self.language = data.get('language', 'en')
+        self.country = data.get('country', '')
         self.published_at = data.get('publishedAt', data.get('published_at', ''))
         self.sentiment_score = data.get('sentiment_score', 0.0)
         self.keywords = data.get('keywords', '')
+        
+        # Enhanced fields
+        self.word_count = data.get('word_count', 0)
+        self.readability_score = data.get('readability_score', 0.0)
+        self.urgency_score = data.get('urgency_score', 0.0)
+        self.credibility_score = data.get('credibility_score', 0.0)
+        self.emotional_tone = data.get('emotional_tone', '')
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
         return {
             'title': self.title,
             'description': self.description,
+            'content': self.content,
             'url': self.url,
             'source': self.source,
+            'author': self.author,
+            'category': self.category,
+            'language': self.language,
+            'country': self.country,
             'published_at': self.published_at,
             'sentiment_score': self.sentiment_score,
-            'keywords': self.keywords
+            'keywords': self.keywords,
+            'word_count': self.word_count,
+            'readability_score': self.readability_score,
+            'urgency_score': self.urgency_score,
+            'credibility_score': self.credibility_score,
+            'emotional_tone': self.emotional_tone
         }
 
 class TrendingTopic:

@@ -1,3 +1,7 @@
+"""
+Reddit data collector for Social Pulse Analytics
+Handles Reddit API integration and data collection
+"""
 import requests
 import time
 import base64
@@ -101,7 +105,7 @@ class RedditCollector:
             if post_data.get('created_utc', 0) < cutoff_time:
                 continue
             
-            # Create RedditPost object
+            # Create RedditPost object with enhanced data
             reddit_post = RedditPost({
                 'id': post_data.get('id'),
                 'title': post_data.get('title', ''),
@@ -112,7 +116,22 @@ class RedditCollector:
                 'url': post_data.get('url', ''),
                 'selftext': post_data.get('selftext', ''),
                 'created_utc': post_data.get('created_utc', 0),
-                'sentiment_score': 0.0  # Will be calculated later
+                'sentiment_score': 0.0,  # Will be calculated later
+                'upvote_ratio': post_data.get('upvote_ratio', 0.0),
+                'post_flair': post_data.get('link_flair_text', ''),
+                'is_nsfw': post_data.get('over_18', False),
+                'is_spoiler': post_data.get('spoiler', False),
+                'is_locked': post_data.get('locked', False),
+                'post_type': 'link' if post_data.get('is_self', True) == False else 'text',
+                'domain': post_data.get('domain', ''),
+                'gilded': post_data.get('gilded', 0),
+                'distinguished': post_data.get('distinguished', ''),
+                'stickied': post_data.get('stickied', False),
+                'total_awards_received': post_data.get('total_awards_received', 0),
+                'curse_word_count': 0,  # Will be calculated later
+                'readability_score': 0.0,  # Will be calculated later
+                'engagement_velocity': 0.0,  # Will be calculated later
+                'virality_score': 0.0  # Will be calculated later
             })
             
             posts.append(reddit_post)
