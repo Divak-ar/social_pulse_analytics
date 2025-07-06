@@ -135,68 +135,138 @@ st.markdown("""
         margin: 1.5rem 0;
     }
     
-    /* Tabs styling with background color */
+    /* Tabs styling with enhanced background color */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-        padding: 1rem;
+        background: linear-gradient(135deg, rgba(255, 87, 34, 0.15) 0%, rgba(255, 152, 0, 0.15) 100%);
+        padding: 1.2rem;
         border-radius: 15px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(255, 87, 34, 0.1);
     }
     
     .stTabs [data-baseweb="tab"] {
-        background-color: #f0f2f6;
-        border-radius: 10px;
-        padding: 0.5rem 1rem;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        padding: 0.7rem 1.2rem;
+        font-weight: 600;
+        color: #ff5722;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: linear-gradient(90deg, #ff5722 0%, #ff9800 100%);
+        color: white !important;
+        border: 2px solid #ff5722;
+        box-shadow: 0 4px 8px rgba(255, 87, 34, 0.3);
     }
     
-    /* Enhanced section headers with colors */
+    /* Enhanced section headers with orange-red colors */
     .section-header {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
-        color: #667eea;
-        margin-bottom: 1rem;
-        padding: 0.5rem 0;
-        border-bottom: 2px solid #3498db;
+        color: #ff5722 !important;
+        margin-bottom: 1.2rem;
+        padding: 0.6rem 0;
+        border-bottom: 3px solid #ff5722 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     
-    /* Trending posts styling with orange-red colors */
-    .trending-container {
+    /* Viral section headers with distinct styling */
+    .viral-section-header {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #ff5722 !important;
+        margin: 1.5rem 0 1rem 0;
+        padding: 0.5rem 1rem;
         background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
-        padding: 1rem;
+        border-left: 5px solid #ff5722;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    /* Trending posts styling with enhanced orange-red colors */
+    .trending-container {
+        background: linear-gradient(135deg, rgba(255, 87, 34, 0.15) 0%, rgba(255, 152, 0, 0.15) 100%);
+        padding: 1.2rem;
         border-radius: 15px;
-        margin: 0.5rem 0;
-    }
-    
-    /* Viral predictions styling */
-    .viral-prediction-card {
-        background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
-        padding: 1rem;
-        border-radius: 12px;
         margin: 0.8rem 0;
-        border-left: 4px solid #ff5722;
+        border: 2px solid rgba(255, 87, 34, 0.2);
     }
     
-    /* Real-time indicators styling */
+    .trending-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-left: 5px solid #ff5722;
+        border-radius: 0 12px 12px 0;
+        margin: 12px 0;
+        padding: 16px;
+        box-shadow: 0 3px 10px rgba(255, 87, 34, 0.15);
+        transition: transform 0.2s ease;
+    }
+    
+    .trending-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(255, 87, 34, 0.25);
+    }
+    
+    .trending-title {
+        color: #d84315 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+    
+    .trending-meta {
+        color: #bf360c !important;
+        font-size: 0.95rem;
+    }
+    
+    /* Viral predictions list styling */
+    .viral-list-item {
+        background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+        border-left: 5px solid #ff5722;
+        border-radius: 0 12px 12px 0;
+        margin: 12px 0;
+        padding: 16px 20px;
+        box-shadow: 0 3px 10px rgba(255, 87, 34, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .viral-list-item:hover {
+        transform: translateX(3px);
+        box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+    }
+    
+    .viral-list-title {
+        color: #ff5722 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+    
+    .viral-list-meta {
+        color: #e64a19 !important;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    /* Real-time indicators enhanced styling */
     .realtime-indicator {
         background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
-        padding: 1rem;
-        border-radius: 12px;
-        margin: 0.8rem 0;
-        border-left: 4px solid #4caf50;
+        padding: 1.2rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+        border-left: 5px solid #4caf50;
+        border: 2px solid rgba(76, 175, 80, 0.2);
     }
     
-    /* Timeline styling */
+    /* Timeline enhanced styling */
     .timeline-container {
-        background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(103, 58, 183, 0.1) 100%);
-        padding: 1rem;
+        background: linear-gradient(135deg, rgba(156, 39, 176, 0.12) 0%, rgba(103, 58, 183, 0.12) 100%);
+        padding: 1.2rem;
         border-radius: 15px;
-        margin: 0.8rem 0;
+        margin: 1rem 0;
+        border: 2px solid rgba(156, 39, 176, 0.2);
     }
     
     /* Post card styling */
@@ -1149,115 +1219,120 @@ def show_behavioral_insights_tab(analytics, reddit_df):
         st.info("📊 No data available for advanced behavioral analysis")
 
 def show_viral_predictions_tab(analytics, reddit_df):
-    """Show viral predictions with enhanced accuracy"""
+    """Show viral predictions as styled lists with enhanced colors and export at bottom"""
     
-    st.markdown("### 🔮 Viral Content Predictions")
+    # 🏆 Top Viral Predictions Section
+    st.markdown('<div class="viral-section-header">🏆 Top Viral Predictions</div>', unsafe_allow_html=True)
     
     viral_predictions = analytics.get('viral_predictions', [])
     
     if viral_predictions:
-        # Create DataFrame for visualization
         pred_df = pd.DataFrame(viral_predictions)
         
-        col1, col2 = st.columns([1, 1])
-        
-        with col1:
-            # Convert chart to list format
-            st.markdown('<div class="viral-prediction-card">', unsafe_allow_html=True)
-            st.markdown("#### 🏆 Top Viral Predictions")
-            
-            for i, pred in enumerate(pred_df.head(10).to_dict('records')):
-                prediction_level = pred.get('prediction', 'emerging')
-                emoji = "🚀" if prediction_level == 'emerging' else "👀"
-                
-                # Color based on viral potential
-                if pred['viral_potential'] > 8:
-                    color = "#d32f2f"  # Red for very high
-                elif pred['viral_potential'] > 6:
-                    color = "#f57c00"  # Orange for high
-                else:
-                    color = "#1976d2"  # Blue for moderate
-                
-                st.markdown(f"""
-                <div style="background: rgba(255, 255, 255, 0.9); padding: 12px; margin: 8px 0; border-radius: 10px; border-left: 4px solid {color};">
-                    <strong style="color: {color};">{i+1}. {pred['keyword']}</strong> {emoji}<br>
-                    <small style="color: #555;">Score: {pred['viral_potential']:.1f} | Mentions: {pred['mention_count']}</small>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown('<div class="realtime-indicator">', unsafe_allow_html=True)
-            st.markdown("#### 🎯 Real-Time Viral Indicators")
-            
-            # Quick viral indicators
-            high_potential = [p for p in pred_df.to_dict('records') if p['viral_potential'] > 7]
-            emerging_topics = [p for p in pred_df.to_dict('records') if p.get('prediction') == 'emerging']
+        # Display as a styled list instead of graph
+        for i, pred in enumerate(pred_df.head(10).to_dict('records')):
+            prediction_level = pred.get('prediction', 'emerging')
+            emoji = "🚀" if prediction_level == 'emerging' else "👀" if prediction_level == 'trending' else "⭐"
             
             st.markdown(f"""
-            <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 10px; color: #2e7d32;">
-                <h4 style="color: #388e3c; margin: 0 0 10px 0;">📊 Quick Stats</h4>
-                <p style="margin: 5px 0;"><strong>🔥 High Potential Topics:</strong> {len(high_potential)}</p>
-                <p style="margin: 5px 0;"><strong>🚀 Emerging Trends:</strong> {len(emerging_topics)}</p>
-                <p style="margin: 5px 0;"><strong>📈 Total Predictions:</strong> {len(pred_df)}</p>
+            <div class="viral-list-item">
+                <div class="viral-list-title">{i+1}. {pred['keyword']} {emoji}</div>
+                <div class="viral-list-meta">
+                    Viral Score: <strong>{pred['viral_potential']:.1f}</strong> | 
+                    Mentions: <strong>{pred['mention_count']}</strong> | 
+                    Prediction: <strong style="color: #ff5722;">{prediction_level.title()}</strong>
+                </div>
             </div>
             """, unsafe_allow_html=True)
-            
-            st.markdown('</div>', unsafe_allow_html=True)
+    else:
+        st.info("🔍 No viral predictions available. Run analytics to generate predictions.")
     
-    # Enhanced predictions with current data
+    # ⚡ Real-Time Viral Indicators Section
+    st.markdown('<div class="viral-section-header">⚡ Real-Time Viral Indicators</div>', unsafe_allow_html=True)
+    
     if not reddit_df.empty:
-        st.markdown('<div class="realtime-indicator">', unsafe_allow_html=True)
-        st.markdown("#### 🎯 Real-Time Viral Indicators")
-        
         # Calculate viral indicators
         reddit_df['engagement_rate'] = (reddit_df['num_comments'] / reddit_df['score'].replace(0, 1)).fillna(0)
         reddit_df['recency_hours'] = (datetime.now().timestamp() - reddit_df['created_utc']) / 3600
-        reddit_df['velocity'] = reddit_df['score'] / (reddit_df['recency_hours'] + 1)  # Engagement velocity
+        reddit_df['velocity'] = reddit_df['score'] / (reddit_df['recency_hours'] + 1)
         
-        # Get posts with high viral potential
+        # Get posts with high viral potential (last 12 hours only)
         potential_viral = reddit_df[
             (reddit_df['velocity'] > reddit_df['velocity'].quantile(0.8)) &
-            (reddit_df['recency_hours'] < 12)  # Recent posts only
-        ].nlargest(5, 'velocity')
+            (reddit_df['recency_hours'] < 12)
+        ].nlargest(8, 'velocity')
         
         if not potential_viral.empty:
             for i, (_, post) in enumerate(potential_viral.iterrows()):
-                title = post['title'][:70] + "..." if len(post['title']) > 70 else post['title']
+                title = post['title'][:75] + "..." if len(post['title']) > 75 else post['title']
                 
-                # Determine prediction confidence
+                # Determine confidence level
                 if post['velocity'] > reddit_df['velocity'].quantile(0.95):
-                    confidence = "🔥 Very High"
-                    confidence_color = "#d32f2f"  # Red
+                    confidence = "High"
+                    confidence_color = "#4caf50"
+                    confidence_emoji = "🔥"
                 elif post['velocity'] > reddit_df['velocity'].quantile(0.9):
-                    confidence = "🚀 High"
-                    confidence_color = "#f57c00"  # Orange
+                    confidence = "Medium"
+                    confidence_color = "#ff9800"
+                    confidence_emoji = "�"
                 else:
-                    confidence = "📈 Moderate"
-                    confidence_color = "#1976d2"  # Blue
+                    confidence = "Emerging"
+                    confidence_color = "#ff5722"
+                    confidence_emoji = "📈"
                 
                 st.markdown(f"""
-                <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 4px solid {confidence_color};">
-                    <div style="font-weight: bold; margin-bottom: 8px; color: {confidence_color};">{i+1}. {title}</div>
-                    <div style="font-size: 0.9rem; color: #666;">
-                        <strong>Viral Confidence:</strong> <span style="color: {confidence_color};">{confidence}</span><br>
-                        <strong>Velocity:</strong> {post['velocity']:.1f} points/hour | 
-                        <strong>Engagement Rate:</strong> {post['engagement_rate']:.2f} | 
-                        <strong>Age:</strong> {post['recency_hours']:.1f}h<br>
-                        <strong>Subreddit:</strong> r/{post['subreddit']} | 
-                        <a href="{post.get('url', '#')}" target="_blank" style="color: {confidence_color};">🔗 View Post</a>
+                <div class="viral-list-item">
+                    <div class="viral-list-title">{i+1}. {title} {confidence_emoji}</div>
+                    <div class="viral-list-meta">
+                        Velocity: <strong>{post['velocity']:.1f}/hr</strong> | 
+                        Age: <strong>{post['recency_hours']:.1f}h</strong> | 
+                        Confidence: <strong style="color: {confidence_color};">{confidence}</strong> | 
+                        <span style="color: #ff5722; font-weight: bold;">r/{post['subreddit']}</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("No high-velocity posts detected in the last 12 hours")
-        
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.info("� No high-velocity posts detected in the last 12 hours")
+    else:
+        st.warning("📊 No Reddit data available for real-time analysis")
     
-    # Export section
+    # 📈 Viral Content Timeline Section
+    st.markdown('<div class="viral-section-header">📈 Viral Content Timeline</div>', unsafe_allow_html=True)
+    
+    if not reddit_df.empty:
+        reddit_df['total_engagement'] = reddit_df['score'] + reddit_df['num_comments']
+        viral_threshold = reddit_df['total_engagement'].quantile(0.9)
+        viral_posts = reddit_df[reddit_df['total_engagement'] > viral_threshold]
+        
+        if len(viral_posts) > 0:
+            viral_timeline = viral_posts.copy()
+            viral_timeline['datetime'] = pd.to_datetime(viral_timeline['created_utc'], unit='s')
+            viral_timeline = viral_timeline.sort_values('datetime', ascending=False)
+            recent_viral = viral_timeline.head(8)[['title', 'subreddit', 'total_engagement', 'sentiment_score', 'datetime']]
+            
+            for i, (_, post) in enumerate(recent_viral.iterrows()):
+                title = post['title'][:80] + "..." if len(str(post['title'])) > 80 else post['title']
+                time_str = post['datetime'].strftime('%m/%d %H:%M')
+                
+                st.markdown(f"""
+                <div class="viral-list-item">
+                    <div class="viral-list-title">{i+1}. {title} 🔥</div>
+                    <div class="viral-list-meta">
+                        Engagement: <strong>{post['total_engagement']}</strong> | 
+                        Sentiment: <strong>{post['sentiment_score']:.2f}</strong> | 
+                        <span style="color: #ff5722; font-weight: bold;">r/{post['subreddit']}</span> | 
+                        {time_str}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("🔍 No viral posts found for timeline.")
+    else:
+        st.warning("📊 No data available for timeline analysis")
+    
+    # Export section moved to bottom
     st.markdown("---")
-    st.markdown("#### 📤 Data Export for Advanced Analysis")
+    st.markdown('<div class="viral-section-header">📤 Machine Learning Export</div>', unsafe_allow_html=True)
     
     col1, col2 = st.columns([2, 1])
     
@@ -1275,13 +1350,10 @@ def show_viral_predictions_tab(analytics, reddit_df):
         """)
     
     with col2:
-        if st.button("� Export Dataset", type="primary"):
+        if st.button("📊 Export Dataset", type="primary"):
             # Generate export data
             if not reddit_df.empty:
-                export_data = reddit_df[[
-                    'title', 'subreddit', 'score', 'num_comments', 'sentiment_score', 
-                    'created_utc', 'url'
-                ]].copy()
+                export_data = reddit_df[['title', 'subreddit', 'score', 'num_comments', 'sentiment_score', 'created_utc', 'url']].copy()
                 
                 # Add calculated features
                 export_data['total_engagement'] = export_data['score'] + export_data['num_comments']
