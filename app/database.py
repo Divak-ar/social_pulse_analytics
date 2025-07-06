@@ -13,12 +13,19 @@ class Database:
     
     def __init__(self):
         self.db_path = config.DATABASE_PATH
-        self.ensure_database_exists()
+        self.is_memory_db = self.db_path == ":memory:"
+        
+        if not self.is_memory_db:
+            self.ensure_database_exists()
+        
         self.create_tables()
     
     def ensure_database_exists(self):
-        """Create database directory if it doesn't exist"""
-        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+        """Create database directory if it doesn't exist (only for file databases)"""
+        if not self.is_memory_db and self.db_path != ":memory:":
+            dir_path = os.path.dirname(self.db_path)
+            if dir_path:  # Only create directory if there's a path
+                os.makedirs(dir_path, exist_ok=True)
     
     def get_connection(self):
         """Get database connection"""

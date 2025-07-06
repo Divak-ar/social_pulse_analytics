@@ -58,6 +58,10 @@ htmlcov/
 
 # Streamlit
 .streamlit/
+deploy_checklist.md
+deployment.md
+deployment_complete.md
+streamlit_deployment.md
 
 # OS
 .DS_Store

@@ -1,25 +1,30 @@
-# Core Framework
-fastapi==0.104.1
+# Streamlit Cloud Requirements for Social Pulse Analytics
+# Core Dashboard Framework
 streamlit==1.28.1
-uvicorn==0.24.0
 
-# Data Processing
+# Data Processing & Analysis
 pandas==2.1.3
 numpy==1.24.3
 requests==2.31.0
 python-dotenv==1.0.0
 
-# Analytics & Sentiment
+# Natural Language Processing & Sentiment Analysis
 textblob==0.17.1
 vaderSentiment==3.3.2
 
-# Visualization
+# Data Visualization
 plotly==5.17.0
-plotly-express==0.4.1
 
-# Task Scheduling
+# Reddit API Client  
+praw==7.7.1
+
+# Task Scheduling (for background data collection)
 schedule==1.2.0
 
-# Utilities  
+# Date/Time Utilities
 python-dateutil==2.8.2
 pytz==2023.3
+
+# Additional dependencies for content analysis
+beautifulsoup4==4.12.2
+lxml==4.9.3

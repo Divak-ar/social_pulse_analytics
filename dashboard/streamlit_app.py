@@ -1,6 +1,7 @@
 """
 Enhanced Streamlit dashboard for Social Pulse Analytics
 Beautiful, mobile-responsive dashboard with advanced behavioral insights
+Optimized for Streamlit Cloud deployment
 """
 import streamlit as st
 import plotly.express as px

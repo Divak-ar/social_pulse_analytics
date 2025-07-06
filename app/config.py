@@ -1,29 +1,42 @@
 import os
+import streamlit as st
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
+def get_config_value(key, default=""):
+    """Get configuration value from Streamlit secrets or environment variables"""
+    try:
+        # Try Streamlit secrets first (for cloud deployment)
+        if hasattr(st, 'secrets') and key in st.secrets:
+            return st.secrets[key]
+    except:
+        pass
+    
+    # Fallback to environment variables
+    return os.getenv(key, default)
+
 class Config:
     """Application configuration"""
     
     # Reddit API Configuration
-    REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID", "")
-    REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "")
-    REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT", "SocialPulseAnalytics/1.0")
+    REDDIT_CLIENT_ID = get_config_value("REDDIT_CLIENT_ID", "")
+    REDDIT_CLIENT_SECRET = get_config_value("REDDIT_CLIENT_SECRET", "")
+    REDDIT_USER_AGENT = get_config_value("REDDIT_USER_AGENT", "SocialPulseAnalytics/1.0")
     
     # NewsAPI Configuration
-    NEWS_API_KEY = os.getenv("NEWS_API_KEY", "")
+    NEWS_API_KEY = get_config_value("NEWS_API_KEY", "")
     
-    # Database Configuration
-    DATABASE_PATH = os.getenv("DATABASE_PATH", "data/social_pulse.db")
+    # Database Configuration (use in-memory for cloud)
+    DATABASE_PATH = get_config_value("DATABASE_PATH", ":memory:")
     
     # Scheduling Configuration
-    UPDATE_INTERVAL = int(os.getenv("UPDATE_INTERVAL", "30"))
+    UPDATE_INTERVAL = int(get_config_value("UPDATE_INTERVAL", "30"))
     
     # Server Configuration
-    STREAMLIT_PORT = int(os.getenv("STREAMLIT_PORT", "8501"))
-    API_PORT = int(os.getenv("API_PORT", "8000"))
+    STREAMLIT_PORT = int(get_config_value("STREAMLIT_PORT", "8501"))
+    API_PORT = int(get_config_value("API_PORT", "8000"))
     
     # Reddit Configuration (Optimized for faster loading)
     REDDIT_SUBREDDITS = [
