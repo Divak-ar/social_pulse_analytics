@@ -135,9 +135,13 @@ st.markdown("""
         margin: 1.5rem 0;
     }
     
-    /* Tabs styling */
+    /* Tabs styling with background color */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+        padding: 1rem;
+        border-radius: 15px;
+        margin-bottom: 1rem;
     }
     
     .stTabs [data-baseweb="tab"] {
@@ -149,6 +153,50 @@ st.markdown("""
     .stTabs [aria-selected="true"] {
         background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         color: white;
+    }
+    
+    /* Enhanced section headers with colors */
+    .section-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+        border-bottom: 2px solid #3498db;
+    }
+    
+    /* Trending posts styling with orange-red colors */
+    .trending-container {
+        background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+        padding: 1rem;
+        border-radius: 15px;
+        margin: 0.5rem 0;
+    }
+    
+    /* Viral predictions styling */
+    .viral-prediction-card {
+        background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 0.8rem 0;
+        border-left: 4px solid #ff5722;
+    }
+    
+    /* Real-time indicators styling */
+    .realtime-indicator {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 0.8rem 0;
+        border-left: 4px solid #4caf50;
+    }
+    
+    /* Timeline styling */
+    .timeline-container {
+        background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(103, 58, 183, 0.1) 100%);
+        padding: 1rem;
+        border-radius: 15px;
+        margin: 0.8rem 0;
     }
     
     /* Post card styling */
@@ -263,7 +311,11 @@ def show_enhanced_metrics(analytics, reddit_df, news_df):
     
     # Sentiment Score
     with col2:
-        avg_sentiment = analytics['sentiment_comparison']['comparison']['reddit_avg']
+        try:
+            avg_sentiment = analytics.get('sentiment_comparison', {}).get('comparison', {}).get('reddit_avg', 0)
+        except:
+            avg_sentiment = 0
+        
         sentiment_emoji = "😊" if avg_sentiment > 0.1 else "😔" if avg_sentiment < -0.1 else "😐"
         sentiment_color = "#28a745" if avg_sentiment > 0 else "#dc3545" if avg_sentiment < -0.1 else "#ffc107"
         
@@ -277,7 +329,11 @@ def show_enhanced_metrics(analytics, reddit_df, news_df):
     
     # Viral Content
     with col3:
-        viral_count = len([p for p in analytics['viral_predictions'] if p.get('viral_potential', 0) > 5])
+        try:
+            viral_predictions = analytics.get('viral_predictions', [])
+            viral_count = len([p for p in viral_predictions if p.get('viral_potential', 0) > 5])
+        except:
+            viral_count = 0
         
         st.markdown(f"""
         <div class="metric-container">
@@ -289,7 +345,10 @@ def show_enhanced_metrics(analytics, reddit_df, news_df):
     
     # Behavioral Insights
     with col4:
-        behavior_insights = len(analytics['behavioral_report'].get('executive_summary', []))
+        try:
+            behavior_insights = len(analytics.get('behavioral_report', {}).get('executive_summary', []))
+        except:
+            behavior_insights = 0
         
         st.markdown(f"""
         <div class="metric-container">
@@ -429,6 +488,8 @@ def show_overview_tab(analytics, reddit_df, news_df):
         
         # Get top posts from Reddit data instead of just topics
         if not reddit_df.empty:
+            st.markdown('<div class="trending-container">', unsafe_allow_html=True)
+            
             # Sort by engagement (score + comments) and get top posts
             reddit_df['total_engagement'] = reddit_df['score'] + reddit_df['num_comments']
             top_posts = reddit_df.nlargest(8, 'total_engagement')
@@ -438,21 +499,23 @@ def show_overview_tab(analytics, reddit_df, news_df):
                 
                 # Color coding based on subreddit activity
                 if post['total_engagement'] > 1000:
-                    border_color = "#28a745"  # Green for high engagement
+                    border_color = "#ff5722"  # Orange-red for high engagement
                 elif post['total_engagement'] > 500:
-                    border_color = "#ffc107"  # Yellow for medium engagement
+                    border_color = "#ff9800"  # Orange for medium engagement
                 else:
-                    border_color = "#667eea"  # Blue for normal engagement
+                    border_color = "#ffeb3b"  # Yellow for normal engagement
                 
                 # Truncate title if too long
                 title = post['title'][:60] + "..." if len(post['title']) > 60 else post['title']
                 
                 st.markdown(f"""
-                <div style="border-left: 4px solid {border_color}; padding: 12px; margin: 10px 0; background: #f8f9fa; border-radius: 0 8px 8px 0;">
-                    <strong>{i+1}. {title}</strong> {sentiment_emoji}<br>
-                    <small>⬆️ {post['score']} | � {post['num_comments']} | r/{post['subreddit']}</small>
+                <div style="border-left: 4px solid {border_color}; padding: 12px; margin: 10px 0; background: rgba(255, 255, 255, 0.8); border-radius: 0 8px 8px 0; color: #333;">
+                    <strong style="color: #d84315;">{i+1}. {title}</strong> {sentiment_emoji}<br>
+                    <small style="color: #bf360c;">⬆️ {post['score']} | 💬 {post['num_comments']} | r/{post['subreddit']}</small>
                 </div>
                 """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
         else:
             st.info("🔍 No trending posts found yet")
     
@@ -1096,43 +1159,56 @@ def show_viral_predictions_tab(analytics, reddit_df):
         # Create DataFrame for visualization
         pred_df = pd.DataFrame(viral_predictions)
         
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns([1, 1])
         
         with col1:
-            # Viral potential chart
-            fig = px.bar(
-                pred_df.head(10),
-                x='viral_potential',
-                y='keyword',
-                orientation='h',
-                color='viral_potential',
-                color_continuous_scale='Viridis',
-                title="🔥 Topics with Highest Viral Potential",
-                labels={'viral_potential': 'Viral Score', 'keyword': 'Topic'}
-            )
+            # Convert chart to list format
+            st.markdown('<div class="viral-prediction-card">', unsafe_allow_html=True)
+            st.markdown("#### 🏆 Top Viral Predictions")
             
-            fig.update_layout(
-                height=400,
-                yaxis={'categoryorder':'total ascending'},
-                template='plotly_white'
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        
-        with col2:
-            st.markdown("**🏆 Top Viral Predictions**")
-            for i, pred in enumerate(pred_df.head(5).to_dict('records')):
+            for i, pred in enumerate(pred_df.head(10).to_dict('records')):
                 prediction_level = pred.get('prediction', 'emerging')
                 emoji = "🚀" if prediction_level == 'emerging' else "👀"
                 
+                # Color based on viral potential
+                if pred['viral_potential'] > 8:
+                    color = "#d32f2f"  # Red for very high
+                elif pred['viral_potential'] > 6:
+                    color = "#f57c00"  # Orange for high
+                else:
+                    color = "#1976d2"  # Blue for moderate
+                
                 st.markdown(f"""
-                <div style="background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 8px; border-left: 3px solid #667eea;">
-                    <strong>{i+1}. {pred['keyword']}</strong> {emoji}<br>
-                    <small>Score: {pred['viral_potential']:.1f} | Mentions: {pred['mention_count']}</small>
+                <div style="background: rgba(255, 255, 255, 0.9); padding: 12px; margin: 8px 0; border-radius: 10px; border-left: 4px solid {color};">
+                    <strong style="color: {color};">{i+1}. {pred['keyword']}</strong> {emoji}<br>
+                    <small style="color: #555;">Score: {pred['viral_potential']:.1f} | Mentions: {pred['mention_count']}</small>
                 </div>
                 """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown('<div class="realtime-indicator">', unsafe_allow_html=True)
+            st.markdown("#### 🎯 Real-Time Viral Indicators")
+            
+            # Quick viral indicators
+            high_potential = [p for p in pred_df.to_dict('records') if p['viral_potential'] > 7]
+            emerging_topics = [p for p in pred_df.to_dict('records') if p.get('prediction') == 'emerging']
+            
+            st.markdown(f"""
+            <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 10px; color: #2e7d32;">
+                <h4 style="color: #388e3c; margin: 0 0 10px 0;">📊 Quick Stats</h4>
+                <p style="margin: 5px 0;"><strong>🔥 High Potential Topics:</strong> {len(high_potential)}</p>
+                <p style="margin: 5px 0;"><strong>🚀 Emerging Trends:</strong> {len(emerging_topics)}</p>
+                <p style="margin: 5px 0;"><strong>📈 Total Predictions:</strong> {len(pred_df)}</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
     
     # Enhanced predictions with current data
     if not reddit_df.empty:
+        st.markdown('<div class="realtime-indicator">', unsafe_allow_html=True)
         st.markdown("#### 🎯 Real-Time Viral Indicators")
         
         # Calculate viral indicators
@@ -1153,29 +1229,31 @@ def show_viral_predictions_tab(analytics, reddit_df):
                 # Determine prediction confidence
                 if post['velocity'] > reddit_df['velocity'].quantile(0.95):
                     confidence = "🔥 Very High"
-                    confidence_color = "#dc3545"
+                    confidence_color = "#d32f2f"  # Red
                 elif post['velocity'] > reddit_df['velocity'].quantile(0.9):
                     confidence = "🚀 High"
-                    confidence_color = "#ffc107"
+                    confidence_color = "#f57c00"  # Orange
                 else:
                     confidence = "📈 Moderate"
-                    confidence_color = "#28a745"
+                    confidence_color = "#1976d2"  # Blue
                 
                 st.markdown(f"""
-                <div style="background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 4px solid {confidence_color};">
-                    <div style="font-weight: bold; margin-bottom: 8px;">{i+1}. {title}</div>
+                <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 4px solid {confidence_color};">
+                    <div style="font-weight: bold; margin-bottom: 8px; color: {confidence_color};">{i+1}. {title}</div>
                     <div style="font-size: 0.9rem; color: #666;">
                         <strong>Viral Confidence:</strong> <span style="color: {confidence_color};">{confidence}</span><br>
                         <strong>Velocity:</strong> {post['velocity']:.1f} points/hour | 
                         <strong>Engagement Rate:</strong> {post['engagement_rate']:.2f} | 
                         <strong>Age:</strong> {post['recency_hours']:.1f}h<br>
                         <strong>Subreddit:</strong> r/{post['subreddit']} | 
-                        <a href="https://reddit.com{post['permalink']}" target="_blank">🔗 View Post</a>
+                        <a href="{post.get('url', '#')}" target="_blank" style="color: {confidence_color};">🔗 View Post</a>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
             st.info("No high-velocity posts detected in the last 12 hours")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
     
     # Export section
     st.markdown("---")
@@ -1202,7 +1280,7 @@ def show_viral_predictions_tab(analytics, reddit_df):
             if not reddit_df.empty:
                 export_data = reddit_df[[
                     'title', 'subreddit', 'score', 'num_comments', 'sentiment_score', 
-                    'created_utc', 'url', 'permalink'
+                    'created_utc', 'url'
                 ]].copy()
                 
                 # Add calculated features
