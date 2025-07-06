@@ -25,14 +25,28 @@ class Config:
     STREAMLIT_PORT = int(os.getenv("STREAMLIT_PORT", "8501"))
     API_PORT = int(os.getenv("API_PORT", "8000"))
     
-    # Reddit Configuration
+    # Reddit Configuration (Optimized for faster loading)
     REDDIT_SUBREDDITS = [
         "technology", "science", "worldnews", "politics", 
-        "datascience", "MachineLearning", "artificial",
-        "futurology", "space", "environment", "AskReddit",
+        "datascience", "artificial", "environment", "AskReddit",
         "AmItheAsshole", "relationships", "news", "cryptocurrency",
-        "movies", "sports", "conspiracy", "WallStreetBets",
-        "stocks", "investing", "programming", "funny"
+        "movies", "sports", "conspiracy", "stocks", "investing", 
+        "programming", "funny", "explainlikeimfive", "todayilearned", 
+        "unpopularopinion", "changemyview", "legaladvice", 
+        "personalfinance", "prorevenge", "gaming", "nba",
+        "soccer", "nfl", "entertainment", "music", 
+        "food", "cooking", "fitness", "meditation", "philosophy", 
+        "psychology"
+    ]
+    
+    # News Topics for Enhanced Coverage
+    NEWS_TOPICS = [
+        "artificial intelligence", "climate change", "politics",
+        "stock market crash", "crypto volatility", "mass layoffs",
+        "social justice movements", "economic inflation", 
+        "cost of living crisis", "celebrity scandals", "public reactions", "nba" , "psychology" , "mental health",
+        "economy", "technology", "science", "health",
+        "cryptocurrency", "stocks", "inflation", "fitness", "celebrity", "sports", "entertainment"
     ]
     
     # Data Collection Limits
