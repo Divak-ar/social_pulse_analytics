@@ -24,6 +24,17 @@ class NewsCollector:
             'science', 'space', 'climate', 'environment', 'breakthrough',
             'research', 'innovation', 'future', 'digital', 'cyber'
         ]
+        
+        # Trending social topics for comprehensive coverage
+        self.social_topics = [
+            'climate change', 'AI regulation', 'political polarization',
+            'russia ukraine war', 'gaza conflict', 'covid aftermath',
+            'vaccine discourse', 'stock market crash', 'crypto volatility',
+            'mass layoffs', 'social justice movements', 'economic inflation',
+            'cost of living crisis', 'celebrity scandals', 'public reactions',
+            'social media', 'mental health', 'workplace culture',
+            'remote work', 'housing crisis', 'student debt'
+        ]
     
     def make_api_request(self, endpoint: str, params: Dict[str, Any]) -> Dict[str, Any]:
         """Make request to NewsAPI"""

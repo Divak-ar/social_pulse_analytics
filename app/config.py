@@ -29,7 +29,10 @@ class Config:
     REDDIT_SUBREDDITS = [
         "technology", "science", "worldnews", "politics", 
         "datascience", "MachineLearning", "artificial",
-        "futurology", "space", "environment"
+        "futurology", "space", "environment", "AskReddit",
+        "AmItheAsshole", "relationships", "news", "cryptocurrency",
+        "movies", "sports", "conspiracy", "WallStreetBets",
+        "stocks", "investing", "programming", "funny"
     ]
     
     # Data Collection Limits

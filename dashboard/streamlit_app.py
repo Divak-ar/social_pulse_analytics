@@ -30,114 +30,186 @@ st.set_page_config(
     page_title="Social Pulse Analytics",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="auto"
+    initial_sidebar_state="collapsed"
 )
 
+# Dark/Light mode toggle
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = False
+
+# Theme colors based on mode
+if st.session_state.dark_mode:
+    bg_color = "#0e1117"
+    text_color = "#fafafa"
+    card_bg = "#262730"
+    border_color = "#4f5168"
+    gradient_primary = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+else:
+    bg_color = "#ffffff"
+    text_color = "#262730"
+    card_bg = "#f8f9fa"
+    border_color = "#e6e6e6"
+    gradient_primary = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+
 # Enhanced CSS for beautiful mobile-responsive design
-st.markdown("""
+st.markdown(f"""
 <style>
+    /* Remove default Streamlit padding */
+    .main .block-container {{
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        max-width: 100%;
+    }}
+    
     /* Main styling */
-    .main-header {
+    .main-header {{
         font-size: 3rem;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: {gradient_primary};
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         font-weight: 700;
-    }
+    }}
     
-    .sub-header {
+    .sub-header {{
         text-align: center;
-        color: #666;
+        color: {text_color};
         font-size: 1.2rem;
-        margin-bottom: 2rem;
-    }
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }}
+    
+    /* Theme toggle button */
+    .theme-toggle {{
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 999;
+        background: {gradient_primary};
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }}
     
     /* Enhanced metrics */
-    .metric-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .metric-container {{
+        background: {gradient_primary};
         padding: 1.5rem;
         border-radius: 15px;
         color: white;
         text-align: center;
         margin: 0.5rem 0;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
+    }}
     
-    .metric-value {
+    .metric-value {{
         font-size: 2.5rem;
         font-weight: bold;
         margin-bottom: 0.5rem;
-    }
+    }}
     
-    .metric-label {
+    .metric-label {{
         font-size: 1rem;
         opacity: 0.9;
-    }
+    }}
     
-    .metric-delta {
+    .metric-delta {{
         font-size: 0.9rem;
         margin-top: 0.25rem;
-    }
+    }}
     
     /* Insight cards */
-    .insight-card {
-        background: white;
+    .insight-card {{
+        background: {card_bg};
         border-left: 5px solid #667eea;
         padding: 1rem;
         margin: 1rem 0;
         border-radius: 0 10px 10px 0;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+        color: {text_color};
+    }}
     
-    .insight-title {
+    .insight-title {{
         font-weight: bold;
-        color: #333;
+        color: {text_color};
         margin-bottom: 0.5rem;
-    }
+    }}
     
-    .insight-text {
-        color: #666;
+    .insight-text {{
+        color: {text_color};
         line-height: 1.5;
-    }
+        opacity: 0.9;
+    }}
     
     /* Status indicators */
-    .status-good { color: #28a745; }
-    .status-warning { color: #ffc107; }
-    .status-danger { color: #dc3545; }
+    .status-good {{ color: #28a745; }}
+    .status-warning {{ color: #ffc107; }}
+    .status-danger {{ color: #dc3545; }}
     
     /* Mobile optimizations */
-    @media (max-width: 768px) {
-        .main-header { font-size: 2rem; }
-        .metric-value { font-size: 2rem; }
-        .metric-container { padding: 1rem; }
-    }
+    @media (max-width: 768px) {{
+        .main-header {{ font-size: 2rem; }}
+        .metric-value {{ font-size: 2rem; }}
+        .metric-container {{ padding: 1rem; }}
+    }}
     
-    /* Chart containers */
-    .chart-container {
-        background: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        margin: 1rem 0;
-    }
+    /* Chart containers with proper spacing */
+    .chart-container {{
+        background: {card_bg};
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        margin: 2rem 0;
+        border: 1px solid {border_color};
+    }}
+    
+    /* Improved spacing between sections */
+    .section-spacer {{
+        margin: 3rem 0;
+    }}
     
     /* Tabs styling */
-    .stTabs [data-baseweb="tab-list"] {
+    .stTabs [data-baseweb="tab-list"] {{
         gap: 8px;
-    }
+        background: {card_bg};
+        padding: 0.5rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+    }}
     
-    .stTabs [data-baseweb="tab"] {
-        background-color: #f0f2f6;
+    .stTabs [data-baseweb="tab"] {{
+        background-color: transparent;
         border-radius: 10px;
-        padding: 0.5rem 1rem;
-    }
+        padding: 0.75rem 1.5rem;
+        color: {text_color};
+        font-weight: 500;
+    }}
     
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    .stTabs [aria-selected="true"] {{
+        background: {gradient_primary};
         color: white;
-    }
+    }}
+    
+    /* Plotly chart containers */
+    .js-plotly-plot {{
+        margin: 1.5rem 0;
+    }}
+    
+    /* Custom section headers */
+    .section-header {{
+        color: {text_color};
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #667eea;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -273,21 +345,23 @@ def show_overview_tab(analytics, reddit_df, news_df):
     # Enhanced metrics
     show_enhanced_metrics(analytics, reddit_df, news_df)
     
-    st.markdown("---")
+    # Add spacing
+    st.markdown('<div class="section-spacer"></div>', unsafe_allow_html=True)
     
     # Human behavior insights
     show_human_behavior_insights(analytics)
     
-    st.markdown("---")
+    # Add spacing
+    st.markdown('<div class="section-spacer"></div>', unsafe_allow_html=True)
     
-    # Main content area
-    col1, col2 = st.columns([2, 1])
+    # Main content area with better spacing
+    col1, col2 = st.columns([2, 1], gap="large")
     
     with col1:
-        st.markdown("### 📊 Social Media Pulse (Last 24h)")
+        st.markdown('<div class="section-header">📊 Social Media Pulse (Last 24h)</div>', unsafe_allow_html=True)
         
         if not reddit_df.empty:
-            # Enhanced pulse visualization
+            # Enhanced pulse visualization with containers
             reddit_df['hour'] = pd.to_datetime(reddit_df['created_utc'], unit='s').dt.floor('H')
             hourly_data = reddit_df.groupby('hour').agg({
                 'score': 'sum',
@@ -296,15 +370,11 @@ def show_overview_tab(analytics, reddit_df, news_df):
                 'virality_score': 'mean'
             }).reset_index()
             
-            fig = make_subplots(
-                rows=3, cols=1,
-                subplot_titles=('Engagement Volume', 'Average Sentiment', 'Virality Score'),
-                vertical_spacing=0.08,
-                specs=[[{"secondary_y": True}], [{}], [{}]]
-            )
+            # Create three separate charts with spacing
+            st.markdown("#### 📈 Engagement Volume")
+            fig1 = make_subplots(specs=[[{"secondary_y": True}]])
             
-            # Engagement volume with dual axis
-            fig.add_trace(
+            fig1.add_trace(
                 go.Scatter(
                     x=hourly_data['hour'],
                     y=hourly_data['score'],
@@ -312,11 +382,10 @@ def show_overview_tab(analytics, reddit_df, news_df):
                     name='Upvotes',
                     line=dict(color='#667eea', width=3),
                     fill='tonexty'
-                ),
-                row=1, col=1
+                )
             )
             
-            fig.add_trace(
+            fig1.add_trace(
                 go.Scatter(
                     x=hourly_data['hour'],
                     y=hourly_data['num_comments'],
@@ -324,11 +393,22 @@ def show_overview_tab(analytics, reddit_df, news_df):
                     name='Comments',
                     line=dict(color='#764ba2', width=3)
                 ),
-                row=1, col=1, secondary_y=True
+                secondary_y=True
             )
             
-            # Sentiment over time
-            fig.add_trace(
+            fig1.update_layout(height=300, template='plotly_white', showlegend=True)
+            fig1.update_yaxes(title_text="Upvotes", secondary_y=False)
+            fig1.update_yaxes(title_text="Comments", secondary_y=True)
+            
+            st.plotly_chart(fig1, use_container_width=True)
+            
+            # Add spacing between charts
+            st.markdown('<div style="margin: 2rem 0;"></div>', unsafe_allow_html=True)
+            
+            # Sentiment chart
+            st.markdown("#### 💭 Average Sentiment")
+            fig2 = go.Figure()
+            fig2.add_trace(
                 go.Scatter(
                     x=hourly_data['hour'],
                     y=hourly_data['sentiment_score'],
@@ -336,12 +416,20 @@ def show_overview_tab(analytics, reddit_df, news_df):
                     name='Sentiment',
                     line=dict(color='#28a745', width=3),
                     fill='tozeroy'
-                ),
-                row=2, col=1
+                )
             )
+            fig2.add_hline(y=0, line_dash="dash", line_color="gray", annotation_text="Neutral")
+            fig2.update_layout(height=300, template='plotly_white')
             
-            # Virality score
-            fig.add_trace(
+            st.plotly_chart(fig2, use_container_width=True)
+            
+            # Add spacing between charts
+            st.markdown('<div style="margin: 2rem 0;"></div>', unsafe_allow_html=True)
+            
+            # Virality chart
+            st.markdown("#### 🚀 Virality Score")
+            fig3 = go.Figure()
+            fig3.add_trace(
                 go.Scatter(
                     x=hourly_data['hour'],
                     y=hourly_data['virality_score'],
@@ -349,23 +437,17 @@ def show_overview_tab(analytics, reddit_df, news_df):
                     name='Virality',
                     line=dict(color='#dc3545', width=3),
                     fill='tozeroy'
-                ),
-                row=3, col=1
+                )
             )
+            fig3.update_layout(height=300, template='plotly_white')
             
-            fig.update_layout(
-                height=600, 
-                showlegend=True,
-                template='plotly_white',
-                title_font_size=16
-            )
+            st.plotly_chart(fig3, use_container_width=True)
             
-            st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("📈 No hourly data available yet")
     
     with col2:
-        st.markdown("### 🔥 Top Trending Now")
+        st.markdown('<div class="section-header">🔥 Top Trending Now</div>', unsafe_allow_html=True)
         
         trending_topics = analytics.get('trending_topics', [])
         if trending_topics:
@@ -382,7 +464,7 @@ def show_overview_tab(analytics, reddit_df, news_df):
                     border_color = "#764ba2"  # Purple for News-only
                 
                 st.markdown(f"""
-                <div style="border-left: 4px solid {border_color}; padding: 10px; margin: 8px 0; background: #f8f9fa; border-radius: 0 8px 8px 0;">
+                <div style="border-left: 4px solid {border_color}; padding: 12px; margin: 10px 0; background: {card_bg}; border-radius: 0 8px 8px 0; color: {text_color};">
                     <strong>{i+1}. {topic.keyword}</strong> {sentiment_emoji}<br>
                     <small>💬 {total_mentions} mentions | 📱 {topic.reddit_mentions} | 📰 {topic.news_mentions}</small>
                 </div>
@@ -657,25 +739,35 @@ def show_viral_predictions_tab(analytics):
 def main():
     """Enhanced main dashboard function"""
     
+    # Theme toggle button in sidebar
+    with st.sidebar:
+        st.markdown("### ⚙️ Settings")
+        theme_toggle = st.toggle("🌙 Dark Mode", value=st.session_state.dark_mode)
+        if theme_toggle != st.session_state.dark_mode:
+            st.session_state.dark_mode = theme_toggle
+            st.rerun()
+    
     # Header with improved styling
     st.markdown('<h1 class="main-header">🧠 Social Pulse Analytics</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header"><strong>Understanding Human Nature Through Social Media Patterns</strong></p>', unsafe_allow_html=True)
     
-    # Auto data collection status
-    with st.container():
-        col1, col2, col3 = st.columns([2, 1, 1])
-        
-        with col1:
-            st.markdown("**🔄 Auto-Collection Active** | Updates every 30 minutes")
-        
-        with col2:
-            if st.button("🔍 Force Refresh", type="secondary"):
-                st.cache_data.clear()
-                st.rerun()
-        
-        with col3:
-            last_update = datetime.now().strftime("%H:%M:%S")
-            st.caption(f"Last updated: {last_update}")
+    # Auto data collection status with better spacing
+    col1, col2, col3 = st.columns([3, 1, 1])
+    
+    with col1:
+        st.markdown("**🔄 Auto-Collection Active** | Updates every 30 minutes")
+    
+    with col2:
+        if st.button("🔍 Force Refresh", type="secondary"):
+            st.cache_data.clear()
+            st.rerun()
+    
+    with col3:
+        last_update = datetime.now().strftime("%H:%M:%S")
+        st.caption(f"Last updated: {last_update}")
+    
+    # Add spacing
+    st.markdown('<div class="section-spacer"></div>', unsafe_allow_html=True)
     
     # Check for data and auto-collect if needed
     reddit_df, news_df = load_data()
