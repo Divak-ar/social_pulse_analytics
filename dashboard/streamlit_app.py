@@ -250,23 +250,127 @@ st.markdown("""
         font-weight: 500;
     }
     
-    /* Real-time indicators enhanced styling */
+    /* Real-time indicators enhanced styling - BLUE */
     .realtime-indicator {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(63, 81, 181, 0.15) 100%);
+        padding: 1.2rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+        border-left: 5px solid #2196f3;
+        border: 2px solid rgba(33, 150, 243, 0.2);
+    }
+    
+    .realtime-indicator * {
+        color: #1976d2 !important;
+    }
+    
+    .realtime-header {
+        color: #1976d2 !important;
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(63, 81, 181, 0.15) 100%);
+        border-left: 5px solid #2196f3;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 1.5rem 0 1rem 0;
+        padding: 0.5rem 1rem;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    /* Blue viral list items */
+    .blue-viral-item {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(63, 81, 181, 0.1) 100%);
+        border-left: 5px solid #2196f3;
+        border-radius: 0 12px 12px 0;
+        margin: 12px 0;
+        padding: 16px 20px;
+        box-shadow: 0 3px 10px rgba(33, 150, 243, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .blue-viral-item:hover {
+        transform: translateX(3px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+    }
+    
+    .blue-viral-item * {
+        color: #1976d2 !important;
+    }
+    
+    .blue-viral-title {
+        color: #1976d2 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+    
+    .blue-viral-meta {
+        color: #1565c0 !important;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    .blue-viral-meta strong {
+        color: #1565c0 !important;
+    }
+    
+    /* Timeline enhanced styling - GREEN */
+    .timeline-container {
         background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
         padding: 1.2rem;
         border-radius: 15px;
         margin: 1rem 0;
-        border-left: 5px solid #4caf50;
         border: 2px solid rgba(76, 175, 80, 0.2);
     }
     
-    /* Timeline enhanced styling */
-    .timeline-container {
-        background: linear-gradient(135deg, rgba(156, 39, 176, 0.12) 0%, rgba(103, 58, 183, 0.12) 100%);
-        padding: 1.2rem;
-        border-radius: 15px;
-        margin: 1rem 0;
-        border: 2px solid rgba(156, 39, 176, 0.2);
+    .timeline-container * {
+        color: #2e7d32 !important;
+    }
+    
+    .timeline-header {
+        color: #388e3c !important;
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
+        border-left: 5px solid #4caf50;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 1.5rem 0 1rem 0;
+        padding: 0.5rem 1rem;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    /* Green viral list items */
+    .green-viral-item {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 195, 74, 0.1) 100%);
+        border-left: 5px solid #4caf50;
+        border-radius: 0 12px 12px 0;
+        margin: 12px 0;
+        padding: 16px 20px;
+        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .green-viral-item:hover {
+        transform: translateX(3px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+    }
+    
+    .green-viral-item * {
+        color: #2e7d32 !important;
+    }
+    
+    .green-viral-title {
+        color: #2e7d32 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+    
+    .green-viral-meta {
+        color: #1b5e20 !important;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    .green-viral-meta strong {
+        color: #1b5e20 !important;
     }
     
     /* Post card styling */
@@ -1247,8 +1351,10 @@ def show_viral_predictions_tab(analytics, reddit_df):
     else:
         st.info("🔍 No viral predictions available. Run analytics to generate predictions.")
     
-    # ⚡ Real-Time Viral Indicators Section
-    st.markdown('<div class="viral-section-header">⚡ Real-Time Viral Indicators</div>', unsafe_allow_html=True)
+    # ⚡ Real-Time Viral Indicators Section - BLUE
+    st.markdown('<div class="realtime-header">⚡ Real-Time Viral Indicators</div>', unsafe_allow_html=True)
+    
+    st.markdown('<div class="realtime-indicator">', unsafe_allow_html=True)
     
     if not reddit_df.empty:
         # Calculate viral indicators
@@ -1269,35 +1375,39 @@ def show_viral_predictions_tab(analytics, reddit_df):
                 # Determine confidence level
                 if post['velocity'] > reddit_df['velocity'].quantile(0.95):
                     confidence = "High"
-                    confidence_color = "#4caf50"
+                    confidence_color = "#1976d2"
                     confidence_emoji = "🔥"
                 elif post['velocity'] > reddit_df['velocity'].quantile(0.9):
                     confidence = "Medium"
-                    confidence_color = "#ff9800"
-                    confidence_emoji = "�"
+                    confidence_color = "#1565c0"
+                    confidence_emoji = "📈"
                 else:
                     confidence = "Emerging"
-                    confidence_color = "#ff5722"
+                    confidence_color = "#1976d2"
                     confidence_emoji = "📈"
                 
                 st.markdown(f"""
-                <div class="viral-list-item">
-                    <div class="viral-list-title">{i+1}. {title} {confidence_emoji}</div>
-                    <div class="viral-list-meta">
+                <div class="blue-viral-item">
+                    <div class="blue-viral-title">{i+1}. {title} {confidence_emoji}</div>
+                    <div class="blue-viral-meta">
                         Velocity: <strong>{post['velocity']:.1f}/hr</strong> | 
                         Age: <strong>{post['recency_hours']:.1f}h</strong> | 
-                        Confidence: <strong style="color: {confidence_color};">{confidence}</strong> | 
-                        <span style="color: #ff5722; font-weight: bold;">r/{post['subreddit']}</span>
+                        Confidence: <strong>{confidence}</strong> | 
+                        <span style="font-weight: bold;">r/{post['subreddit']}</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("� No high-velocity posts detected in the last 12 hours")
+            st.markdown('<div style="color: #1976d2 !important; padding: 1rem; text-align: center;">📍 No high-velocity posts detected in the last 12 hours</div>', unsafe_allow_html=True)
     else:
-        st.warning("📊 No Reddit data available for real-time analysis")
+        st.markdown('<div style="color: #1976d2 !important; padding: 1rem; text-align: center;">📊 No Reddit data available for real-time analysis</div>', unsafe_allow_html=True)
     
-    # 📈 Viral Content Timeline Section
-    st.markdown('<div class="viral-section-header">📈 Viral Content Timeline</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)  # Close realtime-indicator div
+    
+    # 📈 Viral Content Timeline Section - GREEN
+    st.markdown('<div class="timeline-header">📈 Viral Content Timeline</div>', unsafe_allow_html=True)
+    
+    st.markdown('<div class="timeline-container">', unsafe_allow_html=True)
     
     if not reddit_df.empty:
         reddit_df['total_engagement'] = reddit_df['score'] + reddit_df['num_comments']
@@ -1315,63 +1425,22 @@ def show_viral_predictions_tab(analytics, reddit_df):
                 time_str = post['datetime'].strftime('%m/%d %H:%M')
                 
                 st.markdown(f"""
-                <div class="viral-list-item">
-                    <div class="viral-list-title">{i+1}. {title} 🔥</div>
-                    <div class="viral-list-meta">
+                <div class="green-viral-item">
+                    <div class="green-viral-title">{i+1}. {title} 🔥</div>
+                    <div class="green-viral-meta">
                         Engagement: <strong>{post['total_engagement']}</strong> | 
                         Sentiment: <strong>{post['sentiment_score']:.2f}</strong> | 
-                        <span style="color: #ff5722; font-weight: bold;">r/{post['subreddit']}</span> | 
-                        {time_str}
+                        <span style="font-weight: bold;">r/{post['subreddit']}</span> | 
+                        <span>{time_str}</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("🔍 No viral posts found for timeline.")
+            st.markdown('<div style="color: #2e7d32 !important; padding: 1rem; text-align: center;">🔍 No viral posts found for timeline.</div>', unsafe_allow_html=True)
     else:
-        st.warning("📊 No data available for timeline analysis")
+        st.markdown('<div style="color: #2e7d32 !important; padding: 1rem; text-align: center;">📊 No data available for timeline analysis</div>', unsafe_allow_html=True)
     
-    # Export section moved to bottom
-    st.markdown("---")
-    st.markdown('<div class="viral-section-header">📤 Machine Learning Export</div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        st.info("""
-        **Ready for Advanced Analysis!**
-        
-        Export your data for:
-        - Custom machine learning models
-        - Google Colab analysis
-        - External visualization tools
-        - Academic research
-        
-        Data includes: sentiment scores, engagement metrics, temporal patterns, and behavioral insights.
-        """)
-    
-    with col2:
-        if st.button("📊 Export Dataset", type="primary"):
-            # Generate export data
-            if not reddit_df.empty:
-                export_data = reddit_df[['title', 'subreddit', 'score', 'num_comments', 'sentiment_score', 'created_utc', 'url']].copy()
-                
-                # Add calculated features
-                export_data['total_engagement'] = export_data['score'] + export_data['num_comments']
-                export_data['title_length'] = export_data['title'].str.len()
-                export_data['engagement_rate'] = export_data['num_comments'] / export_data['score'].replace(0, 1)
-                
-                csv_data = export_data.to_csv(index=False)
-                
-                st.download_button(
-                    label="💾 Download CSV",
-                    data=csv_data,
-                    file_name=f"social_pulse_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                    mime="text/csv"
-                )
-                
-                st.success("✅ Dataset ready for download!")
-            else:
-                st.warning("No data available for export")
+    st.markdown('</div>', unsafe_allow_html=True)  # Close timeline-container div
     
     # Add comprehensive viral prediction insights
     st.markdown("---")
@@ -1490,33 +1559,54 @@ def show_viral_predictions_tab(analytics, reddit_df):
                 for subreddit, rate in top_success_rate.items():
                     if rate > 10:  # Only show meaningful rates
                         st.write(f"• r/{subreddit}: {rate:.0f}%")
-        
-        # Viral prediction timeline
-        st.markdown("#### 📈 Viral Content Timeline")
-        
-        if len(viral_posts) > 0:
-            # Create timeline of viral posts
-            viral_timeline = viral_posts.copy()
-            viral_timeline['datetime'] = pd.to_datetime(viral_timeline['created_utc'], unit='s')
-            viral_timeline = viral_timeline.sort_values('datetime')
-            
-            # Show recent viral posts
-            recent_viral = viral_timeline.tail(10)[['title', 'subreddit', 'total_engagement', 'sentiment_score', 'datetime']]
-            
-            st.write("**🔥 Recent Viral Posts:**")
-            for i, (_, post) in enumerate(recent_viral.iterrows()):
-                title = post['title'][:80] + "..." if len(str(post['title'])) > 80 else post['title']
-                time_str = post['datetime'].strftime("%m/%d %H:%M")
-                sentiment_emoji = "😊" if post['sentiment_score'] > 0.1 else "😔" if post['sentiment_score'] < -0.1 else "😐"
-                
-                st.markdown(f"""
-                <div style="background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 8px; border-left: 3px solid #28a745;">
-                    <strong>{i+1}. {title}</strong> {sentiment_emoji}<br>
-                    <small>r/{post['subreddit']} • {post['total_engagement']:.0f} engagement • {time_str}</small>
-                </div>
-                """, unsafe_allow_html=True)
     else:
         st.info("📊 No data available for viral pattern analysis")
+    
+    # 📤 Machine Learning Export Section - MOVED TO BOTTOM
+    st.markdown("---")
+    st.markdown('<div class="viral-section-header" style="color: #ff9800 !important;">📤 Machine Learning Export</div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%); 
+                    padding: 1.2rem; border-radius: 12px; border-left: 4px solid #ff9800;">
+            <h4 style="color: #e65100; margin-bottom: 1rem;">🚀 Ready for Advanced Analysis!</h4>
+            <div style="color: #ef6c00; line-height: 1.6;">
+                <strong>Export your data for:</strong><br>
+                • Custom machine learning models<br>
+                • Google Colab analysis<br>
+                • External visualization tools<br>
+                • Academic research<br><br>
+                <em style="color: #f57c00;">Data includes: sentiment scores, engagement metrics, temporal patterns, and behavioral insights.</em>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        if st.button("📊 Export Dataset", type="primary"):
+            # Generate export data
+            if not reddit_df.empty:
+                export_data = reddit_df[['title', 'subreddit', 'score', 'num_comments', 'sentiment_score', 'created_utc', 'url']].copy()
+                
+                # Add calculated features
+                export_data['total_engagement'] = export_data['score'] + export_data['num_comments']
+                export_data['title_length'] = export_data['title'].str.len()
+                export_data['engagement_rate'] = export_data['num_comments'] / export_data['score'].replace(0, 1)
+                
+                csv_data = export_data.to_csv(index=False)
+                
+                st.download_button(
+                    label="💾 Download CSV",
+                    data=csv_data,
+                    file_name=f"social_pulse_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                    mime="text/csv"
+                )
+                
+                st.success("✅ Dataset ready for download!")
+            else:
+                st.warning("No data available for export")
 
 def main():
     """Enhanced main dashboard function"""
